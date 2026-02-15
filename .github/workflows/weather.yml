@@ -1,0 +1,26 @@
+name: Hava Durumu Botu
+
+on:
+  schedule:
+    - cron: '0 */6 * * *' # Bu ifade "Her 6 saatte bir" demektir
+  workflow_dispatch: # Bu da "Elle tetiklemek istiyorum" demektir
+
+jobs:
+  calistir:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Kodları Çek
+        uses: actions/checkout@v3
+
+      - name: Python Kur
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Gerekli Kütüphaneleri Yükle
+        run: pip install requests
+
+      - name: Botu Başlat
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: python main.py
